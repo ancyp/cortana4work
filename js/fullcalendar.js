@@ -3941,7 +3941,7 @@ function EventManager(options, _sources) {
                     skinCss +
                     "'" +
                 ">" +
-                "<div class='fc-event-inner'>" +
+                "<div class='fc-event-inner' onclick='alert(\"hello\");'>" +
                 "<div class='fc-event-time'>" +
                 htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
                 "</div>" +
