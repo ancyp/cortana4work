@@ -23,6 +23,7 @@ def api_root():
     }
     result = requests.get('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/0a56a648-9802-4774-8986-5a7603228448', headers=headers, params=params)
     result_json = result.json()
+    print('entities:', result_json['entities'])
     entities = [{e['type']: e['entity']} for e in result_json['entities']]
     dict = {"intent": result_json['topScoringIntent']['intent'], "entities": entities}
     dict = json.dumps(dict)
