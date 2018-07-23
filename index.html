@@ -1,65 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>Cortana for Workplace</title>
+  <title>Cortana for Workplace</title>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="js/fullcalendar.js"></script>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="css/stylish-portfolio.min.css" rel="stylesheet">
+  <!-- Bootstrap Core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="css/carousel.css" rel="stylesheet">
+  <!-- Custom Fonts -->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+    type="text/css">
+  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <!-- Custom CSS -->
+  <link href="css/stylish-portfolio.min.css" rel="stylesheet">
 
-  </head>
+  <link href="css/carousel.css" rel="stylesheet">
+  <link href="css/task.css" rel="stylesheet">
+  <link href="css/fullcalendar.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
 
-  <body id="page-top">
-    <!-- Navigation -->
-    <a class="menu-toggle rounded" href="#">
-      <i class="fa fa-bars"></i>
-    </a>
-    <nav id="sidebar-wrapper">
-      <ul class="sidebar-nav">
-        <li class="sidebar-brand">
-          <a class="js-scroll-trigger" href="#corporate">Corporate</a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="js-scroll-trigger" href="#Messages">Messages</a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="js-scroll-trigger" href="#Tasks">Tasks</a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="js-scroll-trigger" href="#HR">HR</a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="js-scroll-trigger" href="#Device">Device</a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="js-scroll-trigger" href="#">Contact</a>
-        </li>
-      </ul>
-    </nav>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="js/task.js"></script>
+  <script>
 
-    <!-- Header -->
-    <header class="masthead d-flex">
-      <!--<div class="container text-center my-auto">
+    $(document).ready(function () {
+      var date = new Date();
+      var d = date.getDate();
+      var m = date.getMonth();
+      var y = date.getFullYear();
+
+      /*  className colors
+      
+      className: default(transparent), important(red), chill(pink), success(green), info(blue)
+      
+      */
+      $.fn.fullCalendar = function (options) {
+
+
+        // method calling
+        if (typeof options == 'string') {
+          var args = Array.prototype.slice.call(arguments, 1);
+          var res;
+          this.each(function () {
+            var calendar = $.data(this, 'fullCalendar');
+            if (calendar && $.isFunction(calendar[options])) {
+              var r = calendar[options].apply(calendar, args);
+              if (res === undefined) {
+                res = r;
+              }
+              if (options == 'destroy') {
+                $.removeData(this, 'fullCalendar');
+              }
+            }
+          });
+          if (res !== undefined) {
+            return res;
+          }
+          return this;
+        }
+
+        options = options || {};
+
+        // would like to have this logic in EventManager, but needs to happen before options are recursively extended
+        var eventSources = options.eventSources || [];
+        delete options.eventSources;
+        if (options.events) {
+          eventSources.push(options.events);
+          delete options.events;
+        }
+
+
+        options = $.extend(true, {},
+          defaults,
+          (options.isRTL || options.isRTL === undefined && defaults.isRTL) ? rtlDefaults : {},
+          options
+        );
+
+
+        this.each(function (i, _element) {
+          var element = $(_element);
+          var calendar = new Calendar(element, options, eventSources);
+          element.data('fullCalendar', calendar); // TODO: look into memory leak implications
+          calendar.render();
+        });
+
+
+        return this;
+
+      };
+
+      /* initialize the external events
+      -----------------------------------------------------------------*/
+
+      $('#external-events div.external-event').each(function () {
+
+        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+        // it doesn't need to have a start or end
+        var eventObject = {
+          title: $.trim($(this).text()) // use the element's text as the event title
+        };
+
+        // store the Event Object in the DOM element so we can get to it later
+        $(this).data('eventObject', eventObject);
+
+        // make the event draggable using jQuery UI
+        $(this).draggable({
+          zIndex: 999,
+          revert: true,      // will cause the event to go back to its
+          revertDuration: 0  //  original position after the drag
+        });
+
+      });
+
+
+      /* initialize the calendar
+      -----------------------------------------------------------------*/
+
+      var calendar = $('#calendar').fullCalendar({
+        header: {
+          left: 'title',
+          center: 'agendaDay,agendaWeek,month',
+          right: 'prev,next today'
+        },
+        editable: true,
+        firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
+        selectable: true,
+        defaultView: 'month',
+
+        axisFormat: 'h:mm',
+        columnFormat: {
+          month: 'ddd',    // Mon
+          week: 'ddd d', // Mon 7
+          day: 'dddd M/d',  // Monday 9/7
+          agendaDay: 'dddd d'
+        },
+        titleFormat: {
+          month: 'MMMM yyyy', // September 2009
+          week: "MMMM yyyy", // September 2009
+          day: 'MMMM yyyy'                  // Tuesday, Sep 8, 2009
+        },
+        allDaySlot: false,
+        selectHelper: true,
+        select: function (start, end, allDay) {
+          var title = prompt('Event Title:');
+          if (title) {
+            calendar.fullCalendar('renderEvent',
+              {
+                title: title,
+                start: start,
+                end: end,
+                allDay: allDay
+              },
+              true // make the event "stick"
+            );
+          }
+          calendar.fullCalendar('unselect');
+        },
+        droppable: true, // this allows things to be dropped onto the calendar !!!
+        drop: function (date, allDay) { // this function is called when something is dropped
+
+          // retrieve the dropped element's stored Event Object
+          var originalEventObject = $(this).data('eventObject');
+
+          // we need to copy it, so that multiple events don't have a reference to the same object
+          var copiedEventObject = $.extend({}, originalEventObject);
+
+          // assign it the date that was reported
+          copiedEventObject.start = date;
+          copiedEventObject.allDay = allDay;
+
+          // render the event on the calendar
+          // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+          $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+
+          // is the "remove after drop" checkbox checked?
+          if ($('#drop-remove').is(':checked')) {
+            // if so, remove the element from the "Draggable Events" list
+            $(this).remove();
+          }
+
+        },
+
+        events: [
+          {
+            title: 'All Day Event',
+            start: new Date(y, m, 1)
+          },
+          {
+            id: 999,
+            title: 'Repeating Event',
+            start: new Date(y, m, d - 3, 16, 0),
+            allDay: false,
+            className: 'info'
+          },
+          {
+            id: 999,
+            title: 'Repeating Event',
+            start: new Date(y, m, d + 4, 16, 0),
+            allDay: false,
+            className: 'info'
+          },
+          {
+            title: 'Meeting',
+            start: new Date(y, m, d, 10, 30),
+            allDay: false,
+            className: 'important'
+          },
+          {
+            title: 'Lunch',
+            start: new Date(y, m, d, 12, 0),
+            end: new Date(y, m, d, 14, 0),
+            allDay: false,
+            className: 'important'
+          },
+          {
+            title: 'Birthday Party',
+            start: new Date(y, m, d + 1, 19, 0),
+            end: new Date(y, m, d + 1, 22, 30),
+            allDay: false,
+          },
+          {
+            title: 'Click for Google',
+            start: new Date(y, m, 28),
+            end: new Date(y, m, 29),
+            url: 'https://ccp.cloudaccess.net/aff.php?aff=5188',
+            className: 'success'
+          }
+        ],
+      });
+
+
+    });
+
+  </script>
+
+</head>
+
+
+<body id="page-top">
+  <!-- Navigation -->
+  <a class="menu-toggle rounded" href="#">
+    <i class="fa fa-bars"></i>
+  </a>
+  <nav id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <a class="js-scroll-trigger" href="#corporate">Corporate</a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="js-scroll-trigger" href="#Messages">Messages</a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="js-scroll-trigger" href="#Tasks">Tasks</a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="js-scroll-trigger" href="#HR">HR</a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="js-scroll-trigger" href="#Device">Device</a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a class="js-scroll-trigger" href="#">Contact</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="masthead d-flex">
+    <!--<div class="container text-center my-auto">
         <h1 class="mb-1">Cortana for Workplace</h1>
         <h3 class="mb-5">
           <em>A device to help you manage your tasks</em>
@@ -67,65 +288,74 @@
         <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
       </div>
       <div class="overlay"></div> -->
-      <div class="container">
-        <div class="carousel" id="slide" data-ride="carousel">
-          <ol class="carousel-indicators">
-            <li data-target="#slide" data-slide-to="0" class="active"></li>
-            <li data-target="#slide" data-slide-to="1"></li>
-            <li data-target="#slide" data-slide-to="2"></li>
-            <li data-target="#slide" data-slide-to="3"></li>
-          </ol>
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="" class="img-fluid">
-              <div class="carousel-caption">
-                <h3>Text</h3>
-                <p></p>
-              </div>
+    <div class="container">
+      <div class="carousel" id="slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#slide" data-slide-to="0" class="active"></li>
+          <li data-target="#slide" data-slide-to="1"></li>
+          <li data-target="#slide" data-slide-to="2"></li>
+          <li data-target="#slide" data-slide-to="3"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active"/>
+            <img src="" class="img-fluid">
+            <div>
+              <h3>Text</h3>
+              <p></p>
             </div>
-            <div class="carousel-item">
-              <img src="" class="img-fluid">
-            <div class="carousel-caption">
-                <h3>HR</h3>
-                <p></p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="" class="img-fluid">
-            <div class="carousel-caption">
-                <h3>Task</h3>
-                <p></p>
-              </div></div>
-
-              <div class="carousel-item">
-                <img src="" class="img-fluid">
-              <div class="carousel-caption">
-                  <h3>Settings</h3>
-                  <p></p>
-                </div></div>
           </div>
-          <a href="#slide" class="carousel-control-prev" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-          </a>
-           <a href="#slide" class="carousel-control-next" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-          </a>
+          <div class="carousel-item">
+            <img src="" class="img-fluid"/>
+            <div>
+              <h3>HR</h3>
+              <p></p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="" class="img-fluid"/>
+            <div>
+              <h3>Task</h3>
+              <p>
+                <div id='wrap'>
+
+                  <div id='calendar'></div>
+
+                  <div style='clear:both'></div>
+                </div>
+              </p>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <img src="" class="img-fluid">
+            <div>
+              <h3>Settings</h3>
+              <p></p>
+            </div>
+          </div>
         </div>
+        <a href="#slide" class="carousel-control-prev" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a href="#slide" class="carousel-control-next" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </a>
       </div>
-    </header>
+    </div>
+  </header>
 
-  
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
 
-    <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom scripts for this template -->
-    <script src="js/stylish-portfolio.min.js"></script>
 
-  </body>
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/stylish-portfolio.min.js"></script>
+
+</body>
 
 </html>
