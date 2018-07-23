@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <title>Enter your command</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/command_input.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>Expandable when is Focus</h2>
+            <h3>Mac Search Style</h3>
+        </div>
+        <div class="row">
+            <form action="/forward">
+                <div class="span12">
+                    <form id="custom-search-form" class="form-search form-horizontal pull-right">
+                        <div class="input-append span12">
+                            <input type="text" name="command" class="search-query mac-style" placeholder="Search">
+                            <button type="submit" class="btn">
+                                <i class="icon-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
