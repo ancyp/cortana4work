@@ -1,0 +1,8 @@
+.img-fluid{
+    width: 1150px;
+    height: 600px;
+    border: 2px solid green;
+    border-radius: 5px;
+    padding: 8px;
+    margin-top: 20px;
+  }
