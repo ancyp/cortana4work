@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <title>Enter your command</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/command_input.css" />
+
+    custom-search-form
+    
+    <script type="text/javascript">
+
+        function submitform() {
+            var formData = JSON.stringify($("#custom-search-form").serializeArray());
+            alert("Sending Json");
+            $.ajax({
+                type: "POST",
+                url: "serverUrl",
+                data: formData,
+                success: function () { },
+                dataType: "json",
+                contentType: "application/json"
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>Expandable when is Focus</h2>
+            <h3>Mac Search Style</h3>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <form action="/interpret-command" method="POST" id="custom-search-form" class="form-search form-horizontal pull-right">
+                    <div class="input-append span12">
+                        <input type="text" name="command" class="search-query mac-style" placeholder="Search">
+                        <button type="submit" class="btn" onclick="submitform()">
+                            HELLO WORLD
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
