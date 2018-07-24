@@ -56,7 +56,10 @@
             </div>
             <div class="message-input">
                 <div class="wrap">
-                    <input type="text" placeholder="Write your message..." />
+                    <input type="text" id="command-input" placeholder="Write your message..." />
+                    <button id="start_button" onclick="startRec(event)">
+                        <i class="fa fa-microphone"></i>
+                    </button>
                     <button class="submit">
                         <i class="fa fa-paper-plane" aria-hidden="true"></i>
                     </button>
@@ -66,7 +69,115 @@
     </div>
     <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
     <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
-    <script>$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+    <script>
+
+
+
+
+        var recognizing = false;
+
+        start_button.style.display = 'inline-block';
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        var start_timestamp;
+
+        function showInfo(msg) {
+            // alert(msg);
+        }
+
+
+        function startRec(event) {
+            if (!event.isTrusted) {
+                return;
+            }
+            if (recognizing) {
+                recognition.stop();
+                return;
+            }
+            final_transcript = '';
+            recognition.lang = 'en-US'
+            recognition.start();
+            ignore_onend = false;
+            // final_span.innerHTML = '';
+            // interim_span.innerHTML = '';
+            // start_img.src = 'mic-slash.gif';
+            // showInfo('info_allow');
+            // showButtons('none');
+            // start_timestamp = event.timeStamp;
+        }
+
+
+        recognition.onstart = function () {
+            recognizing = true;
+            showInfo('info_speak_now');
+            // start_img.src = 'mic-animate.gif';
+        };
+
+        recognition.onerror = function (event) {
+            if (event.error == 'no-speech') {
+                // start_img.src = 'mic.gif';
+                showInfo('info_no_speech');
+                ignore_onend = true;
+            }
+            if (event.error == 'audio-capture') {
+                // start_img.src = 'mic.gif';
+                showInfo('info_no_microphone');
+                ignore_onend = true;
+            }
+            if (event.error == 'not-allowed') {
+                if (event.timeStamp - start_timestamp < 100) {
+                    showInfo('info_blocked');
+                } else {
+                    showInfo('info_denied');
+                }
+                ignore_onend = true;
+            }
+        };
+
+        recognition.onend = function () {
+            recognizing = false;
+            if (ignore_onend) {
+                return;
+            }
+            // start_img.src = 'mic.gif';
+            if (!final_transcript) {
+                showInfo('info_start');
+                return;
+            }
+            showInfo('');
+            if (window.getSelection) {
+                window.getSelection().removeAllRanges();
+                var range = document.createRange();
+                range.selectNode(document.getElementById('final_span'));
+                window.getSelection().addRange(range);
+            }
+            if (create_email) {
+                create_email = false;
+                createEmail();
+            }
+        };
+
+        recognition.onresult = function (event) {
+            var interim_transcript = '';
+            for (var i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    final_transcript += event.results[i][0].transcript;
+                } else {
+                    interim_transcript += event.results[i][0].transcript;
+                }
+            }
+            // final_transcript = (final_transcript);
+            $('#command-input').val($('#command-input').val() + ' ' + final_transcript);
+            // final_span.innerHTML = linebreak(final_transcript);
+            // interim_span.innerHTML = linebreak(interim_transcript);
+            // if (final_transcript || interim_transcript) {
+            //     showButtons('inline-block');
+            // }
+        };
+
+        $(".messages").animate({ scrollTop: $(document).height() }, "fast");
 
         $("#profile-img").click(function () {
             $("#status-options").toggleClass("active");
@@ -119,7 +230,7 @@
             });
         }
 
-        function appendReply(message){
+        function appendReply(message) {
             $('<li class="replies"><img src="https://images.realclear.com/313944_1_.png" alt="" />' + message + '</li>').appendTo($('.messages ul'));
             $('.message-input input').val(null);
             $('.contact.active .preview').html('<span>You: </span>' + message);
@@ -134,6 +245,9 @@
         }
 
         $('.submit').click(function () {
+            if (recognizing) {
+                recognition.stop();
+            }
             newMessage();
         });
 
