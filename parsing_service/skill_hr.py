@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, Response, request, json, Blueprint
+from flask import Flask, Response, request, json, Blueprint, render_template
 
 skill_hr = Blueprint('skill_hr',__name__)
 
@@ -9,7 +9,6 @@ all_records = []
 @skill_hr.route('/report-time-off', methods = ['POST'])
 # takes in json body {'command': <value>}
 def api_root(post_data):
-    print(post_data.keys(),"*******")
     global all_records
     # post_data = request.json
     if post_data['intent'] == 'get-time-off':
@@ -28,12 +27,9 @@ def api_root(post_data):
                 start_date = e["builtin.datetimeV2.date"]
         if start_date and duration:
             all_records.append({"start-date": start_date, "duration": duration})
-            return "hr_skill.html" , {}
-            resp = Response(json.dumps({"txt-response": "Enjoy your time off"}), status=200, mimetype='application/json')
-            return resp
+            render_template("hr_skill.html", txt_response="Enjoy your time off")
 
-    resp = Response(json.dumps({"txt-response": "Unable to add"}), status=200, mimetype='application/json')
-    return resp
+    return render_template("hr_skill.html", txt_response="unable to add")
 
 if __name__ == '__main__':
     app.run()

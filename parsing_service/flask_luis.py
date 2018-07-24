@@ -10,11 +10,11 @@ headers = {
 
 # @app.route('/', methods = ['POST'])
 # takes in json body {'command': <value>}
-def get_intent(post_data):
+def get_intent(command):
     global headers
-    post_data #= request.json
+    # post_data #= request.json
     params = {
-    'q': post_data['command'],
+    'q': command,
     # Optional request parameters, set to default values
     'timezoneOffset': '0',
     'verbose': 'false',
