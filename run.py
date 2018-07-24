@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request
-from parsing_service.skill_hr import skill_hr
+from skills.skill_hr import skill_hr
 from login_or_register import login_or_register
-from parsing_service.flask_luis import get_intent
+from skills.flask_luis import get_intent
 from intent_resolver import resolve_intent
 
 app = Flask(__name__)
@@ -33,6 +33,7 @@ def forward():
     intent = get_intent(command=request.form.keys()[0])
     task_executor = resolve_intent(intent)
     return task_executor(intent)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
