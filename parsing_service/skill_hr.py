@@ -8,7 +8,7 @@ all_records = []
 
 @skill_hr.route('/report-time-off', methods = ['POST'])
 # takes in json body {'command': <value>}
-def api_root(post_data):
+def skill_hr_root(post_data):
     global all_records
     # post_data = request.json
     if post_data['intent'] == 'get-time-off':
@@ -27,7 +27,7 @@ def api_root(post_data):
                 start_date = e["builtin.datetimeV2.date"]
         if start_date and duration:
             all_records.append({"start-date": start_date, "duration": duration})
-            render_template("hr_skill.html", txt_response="Enjoy your time off")
+            return render_template("hr_skill.html", txt_response="Enjoy your time off")
 
     return render_template("hr_skill.html", txt_response="unable to add")
 

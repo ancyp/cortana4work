@@ -33,7 +33,6 @@ def forward():
     intent = get_intent(command=request.form.keys()[0])
     task_executor = resolve_intent(intent)
     return task_executor(intent)
-    return 
 
 if __name__ == '__main__':
     app.run(debug=True)
