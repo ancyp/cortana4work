@@ -5,16 +5,18 @@
     </div>
     {% for item in items %}
     <div class="row row-striped">
-        <div class="col-2 text-right">
+        <div class="col-2 text-right" data-target={{ "#modal"+ loop.index|string }}>
             <h1 class="display-4">
                 <span class="badge badge-secondary time" style="font-size:18px">{{item.start.split('T')[1].split(':')[0]+ ':' + item.start.split('T')[1].split(':')[1]}} - {{item.end.split('T')[1].split(':')[0]+
                     ':' + item.end.split('T')[1].split(':')[1]}}</span>
             </h1>
         </div>
         <div class="col-10">
-            <h3 class="text-uppercase">
-                <strong>{{item.subject}}</strong>
-            </h3>
+            <button data-target={{ "#modal"+ loop.index|string }} data-toggle="modal" style="background: transparent; border: none; zoom: 2;">
+                <h3 class="text-uppercase">
+                    <strong>{{item.subject}}</strong>
+                </h3>
+            </button>
             <ul class="list-inline">
                 <li class="list-inline-item">
                     <i class="fa fa-location-arrow" aria-hidden="true"></i>{{item.location}}</li>
@@ -27,6 +29,4 @@
         </div>
     </div>
     {%endfor%}
-
-
 </div>

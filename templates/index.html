@@ -53,10 +53,6 @@
         $(this).carousel('next');
       });
 
-      $("#modalButton").click(function () {
-        $('#squarespaceModal').appendTo("body").modal('show');
-      });
-
       var date = new Date();
       var d = date.getDate();
       var m = date.getMonth();
@@ -323,6 +319,8 @@
       </div>
     </div>
   </div>
+
+  {% include 'modals.html' %}
 
 
 

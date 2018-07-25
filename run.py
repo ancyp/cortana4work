@@ -26,7 +26,8 @@ def dummy_fn():
 @app.route("/")
 def template_test():
     items = get_events(datetime.datetime.now())
-    return render_template('index.html')
+    print(items)
+    return render_template('index.html', items=json.loads(items))
 
 
 @app.route("/input")
