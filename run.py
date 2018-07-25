@@ -51,5 +51,5 @@ def task_settings():
 
 if __name__ == '__main__':
     context = ('a.cert', 'a.key')
-    app.run(threaded=True, debug=True)
+    app.run(threaded=True, debug=True, host='10.0.0.18')
     # app.run(debug=True, host='172.20.10.14', ssl_context=context)

@@ -11,7 +11,7 @@
   <title>Cortana for Workplace</title>
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="../static/js/fullcalendar.js"></script>
-
+  <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
 
 
   <!-- Bootstrap Core CSS -->
@@ -44,6 +44,14 @@
   <script>
 
     $(document).ready(function () {
+
+
+      $("#slide").swiperight(function () {
+        $(this).carousel('prev');
+      });
+      $("#slide").swipeleft(function () {
+        $(this).carousel('next');
+      });
 
       $("#modalButton").click(function () {
         $('#squarespaceModal').appendTo("body").modal('show');
