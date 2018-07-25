@@ -9,6 +9,7 @@ token = 'eyJ0eXAiOiJKV1QiLCJub25jZSI6IkFRQUJBQUFBQUFEWHpaM2lmci1HUmJEVDQ1ek5TRUZ
 graph_endpoint = 'https://graph.microsoft.com/v1.0{0}'
 app = Flask(__name__)
 months = {'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6, 'july': 7, 'august': 8, 'september': 9, 'october': 10, 'november': 11, 'december': 12}
+contacts = {'ilya': 'ilya.zilbersteine@microsoft.com', 'ancy': 'philip.ancy@microsoft.com', 'pavan': 'pavan.kemparaju@microsoft.com', 'wellington': 'wduraes@microsoft.com'}
 
 def make_api_call(method, url, token, payload = None, parameters = None):
   # Send these headers with all API calls
@@ -69,11 +70,13 @@ def get_events(date, num_days=1):
 # add event to calendar when available during working hours
 def api_root():
   post_data = request.json
-  if post_data['intent'] == 'add-task':
-      subject, deadline, duration = None, None, None
+  if post_data['intent'] == 'add-task' or post_data['intent'] == 'add-meeting':
+      subject, deadline, duration, participant = None, None, None, None
       for e in post_data['entities']:
         if 'Calendar.Subject' in e:
             subject = e['Calendar.Subject']
+        if 'Calendar.Participant' in e:
+            participant = e['Calendar.Participant']
         if 'builtin.datetimeV2.duration' in e:
             duration = int(''.join(filter(str.isdigit, e["builtin.datetimeV2.duration"])))
         if "builtin.datetimeV2.date" in e:
@@ -91,6 +94,8 @@ def api_root():
               "dateTime": (time + timedelta(minutes=duration)).strftime('%Y-%m-%dT%H:%M:%S'),
               "timeZone": "Pacific Standard Time"
           }}
+          if post_data['intent'] == 'add-meeting':
+            event['attendees'] = [{'emailAddress': {'address': contacts[participant], 'name': participant}, 'type': 'required'}]
           r = make_api_call('POST', get_messages_url, token, payload=event)
           if (r.status_code == requests.codes.ok or r.status_code == 201):
             resp = Response(json.dumps({"txt-response": "Task successfully added at {}".format(time)}), status=200, mimetype='application/json')
