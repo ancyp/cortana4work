@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request
 from skills.skill_hr import skill_hr
+from skills.skill_addevent import skill_addevent
 from login_or_register import login_or_register
 from skills.flask_luis import get_intent
 from intent_resolver import resolve_intent
@@ -7,6 +8,7 @@ from intent_resolver import resolve_intent
 app = Flask(__name__)
 app.register_blueprint(skill_hr)
 app.register_blueprint(login_or_register)
+app.register_blueprint(skill_addevent)
 
 
 def dummy_fn():
@@ -15,7 +17,7 @@ def dummy_fn():
 
 @app.route("/")
 def template_test():
-    return render_template('template.html', my_string="Wheeeee!", my_list=[0, 1, 2, 3, 4, 5])
+    return render_template('index.html', my_string="Wheeeee!", my_list=[0, 1, 2, 3, 4, 5])
 
 
 @app.route("/input")
