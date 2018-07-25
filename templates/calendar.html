@@ -1,7 +1,7 @@
 ﻿<div class="container">
     <div class="row row-striped">
-        <input type="image" src="../static/img/previous-button.png" />
-        <input type="image" src="../static/img/next-button.png" style="float:right;clear:right;" />
+        <input type="image" src="../static/img/previous-button.png" onclick="location.href = 'https://localhost:5000?timedelta=-1'; "/>
+        <input type="image" src="../static/img/next-button.png" style="float:right;clear:right;" onclick="location.href = 'https://localhost:5000?timedelta=1'; "/>
     </div>
     {% for item in items %}
     <div class="row row-striped">

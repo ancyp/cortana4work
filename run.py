@@ -19,14 +19,22 @@ app.register_blueprint(login_or_register)
 app.register_blueprint(skill_addevent)
 CORS(app)
 
+time_offset = 0 
+
 def dummy_fn():
     print("dummy")
 
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def template_test():
-    items = get_events(datetime.datetime.now())
-    print(items)
+    global time_offset
+    if(request.args.get('timedelta') is None):
+        timedelta = 0
+    else:
+        timedelta = int(request.args.get('timedelta'))
+    
+    time_offset=time_offset+timedelta
+    items = get_events(datetime.datetime.now()+datetime.timedelta(days=time_offset))
     return render_template('index.html', items=json.loads(items))
 
 
