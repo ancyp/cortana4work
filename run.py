@@ -17,7 +17,7 @@ def dummy_fn():
 
 @app.route("/")
 def template_test():
-    return render_template('template.html', my_string="Wheeeee!", my_list=[0, 1, 2, 3, 4, 5])
+    return render_template('index.html', my_string="Wheeeee!", my_list=[0, 1, 2, 3, 4, 5])
 
 
 @app.route("/input")
@@ -38,4 +38,4 @@ def forward():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='10.105.96.59')
