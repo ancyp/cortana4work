@@ -1,9 +1,10 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, json
 from skills.skill_hr import skill_hr
-from skills.skill_addevent import skill_addevent
+from skills.skill_addevent import skill_addevent, get_events
 from login_or_register import login_or_register
 from skills.flask_luis import get_intent
 from intent_resolver import resolve_intent
+import datetime
 
 from OpenSSL import SSL
 # context = SSL.Context(SSL.SSLv23_METHOD)
@@ -22,7 +23,8 @@ def dummy_fn():
 
 @app.route("/")
 def template_test():
-    return render_template('index.html', my_string="Wheeeee!", my_list=[0, 1, 2, 3, 4, 5])
+    items = get_events(datetime.datetime.now())
+    return render_template('index.html', items=json.loads(items))
 
 
 @app.route("/input")
@@ -44,5 +46,6 @@ def forward():
 
 if __name__ == '__main__':
     context = ('a.cert', 'a.key')
-    app.run(host='172.20.10.14 ', ssl_context=context, threaded=True, debug=True)
-    app.run(debug=True, host='172.20.10.14', ssl_context=context)
+    app.run(ssl_context=context,
+            threaded=True, debug=True)
+    # app.run(debug=True, host='172.20.10.14', ssl_context=context)

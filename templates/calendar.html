@@ -1,0 +1,32 @@
+﻿<div class="container">
+    <div class="row row-striped">
+        <input type="image" src="../static/img/previous-button.png" />
+        <input type="image" src="../static/img/next-button.png" style="float:right;clear:right;" />
+    </div>
+    {% for item in items %}
+    <div class="row row-striped">
+        <div class="col-2 text-right">
+            <h1 class="display-4">
+                <span class="badge badge-secondary time" style="font-size:18px">{{item.start.split('T')[1].split(':')[0]+ ':' + item.start.split('T')[1].split(':')[1]}} - {{item.end.split('T')[1].split(':')[0]+
+                    ':' + item.end.split('T')[1].split(':')[1]}}</span>
+            </h1>
+        </div>
+        <div class="col-10">
+            <h3 class="text-uppercase">
+                <strong>{{item.subject}}</strong>
+            </h3>
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <i class="fa fa-location-arrow" aria-hidden="true"></i>{{item.location}}</li>
+                {% if item.participants !='' %}
+                <li class="list-inline-item">
+                    <i class="fa fa-calendar-o" aria-hidden="true"></i> {{item.participants}}</li>
+                {% endif %}
+            </ul>
+            <p>{{item.details}}</p>
+        </div>
+    </div>
+    {%endfor%}
+
+
+</div>
