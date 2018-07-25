@@ -35,6 +35,10 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="../static/js/task.js"></script>
+  <link href="../static/stylesheets/hr.css" rel="stylesheet">
+  <script src="../static/js/hr.js"></script>
+  <link href="../static/stylesheets/messaging.css" rel="stylesheet">
+
   <script>
 
     $(document).ready(function () {
@@ -286,16 +290,6 @@
     </ul>
   </nav>
 
-  <!--<div class="container text-center my-auto">
-        <h1 class="mb-1">Cortana for Workplace</h1>
-        <h3 class="mb-5">
-          <em>A device to help you manage your tasks</em>
-        </h3>
-        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
-      </div>
-      <div class="overlay"></div> -->
-
-
   <div class="container">
     <div class="carousel" id="slide" data-ride="carousel" data-interval="false">
       <ol class="carousel-indicators">
@@ -332,7 +326,7 @@
                           <span class="time_date"> 6:15 PM | Yesterday</span>
                         </div>
                         <div style="float:right; width:8%;" class="incoming_msg_img">
-                          <img src="img/user-female-circle.png" alt="wifey"> </div>
+                          <img src="../static/img/user-female-circle.png" alt="wifey"> </div>
                       </div>
                       <div class="incoming_msg">
                         <div class="incoming_msg_img">
@@ -350,7 +344,7 @@
                           <span class="time_date"> 9:00 PM | Yesterday</span>
                         </div>
                         <div style="float:right;" class="incoming_msg_img">
-                          <img src="img/boss.png" alt="Boss" float: "right"> </div>
+                          <img src="../static/img/boss.png" alt="Boss" float: "right"> </div>
                       </div>
                     </div>
                     <div class="type_msg">
@@ -375,25 +369,17 @@
           {%include 'tasks_embed.html' %}
         </div>
         <div class="carousel-item">
-          <div>
-            <h3>HR</h3>
-            <p>
-              <div>
-
-              </div>
-
-            </p>
-          </div>
+          {%include 'hr_embed.html' %}
         </div>
         <a href="#slide" class="carousel-control-prev" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-          </a>
-          <a href="#slide" class="carousel-control-next" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-          </a>
-      
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a href="#slide" class="carousel-control-next" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </a>
+
       </div>
-      
+
     </div>
   </div>
 
