@@ -5,6 +5,7 @@ from login_or_register import login_or_register
 from skills.flask_luis import get_intent
 from intent_resolver import resolve_intent
 import datetime
+from flask_cors import CORS
 
 from OpenSSL import SSL
 # context = SSL.Context(SSL.SSLv23_METHOD)
@@ -12,10 +13,11 @@ from OpenSSL import SSL
 # context.use_certificate_file('/home/pavan/cortana4work/a.cert')
 
 app = Flask(__name__)
+
 app.register_blueprint(skill_hr)
 app.register_blueprint(login_or_register)
 app.register_blueprint(skill_addevent)
-
+CORS(app)
 
 def dummy_fn():
     print("dummy")
@@ -24,7 +26,7 @@ def dummy_fn():
 @app.route("/")
 def template_test():
     items = get_events(datetime.datetime.now())
-    return render_template('index.html', items=json.loads(items))
+    return render_template('index.html')
 
 
 @app.route("/input")
@@ -46,6 +48,5 @@ def forward():
 
 if __name__ == '__main__':
     context = ('a.cert', 'a.key')
-    app.run(ssl_context=context,
-            threaded=True, debug=True)
+    app.run(threaded=True, debug=True)
     # app.run(debug=True, host='172.20.10.14', ssl_context=context)

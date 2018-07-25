@@ -16,7 +16,7 @@ img {
 }
 
 .inbox_msg {
-  border: 1px solid #c4c4c4;
+  /* border: 1px solid #c4c4c4; */
   clear: both;
   overflow: hidden;
 }
@@ -176,6 +176,10 @@ img {
   width: 46%;
 }
 
+.dp {
+  border-radius: 100%;
+}
+
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
   border: medium none;
@@ -206,6 +210,7 @@ img {
 
 .messaging {
   padding: 0 0 50px 0;
+  background-color: #f7f7f7;
 }
 
 .msg_history {
