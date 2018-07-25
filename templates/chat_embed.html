@@ -189,7 +189,7 @@
         function getTaskResponse(message) {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:5000/interpret-command",
+                url: "https://localhost:5000/interpret-command",
                 data: message,
                 success: appendReply,
                 dataType: "text"

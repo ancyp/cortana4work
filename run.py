@@ -41,7 +41,7 @@ def chat():
 
 @app.route("/interpret-command", methods=['POST'])
 def forward():
-    intent = get_intent(command=request.form.keys()[0])
+    intent = get_intent(command=list(request.form)[0])
     task_executor = resolve_intent(intent)
     return task_executor(intent)
 
@@ -51,5 +51,5 @@ def task_settings():
 
 if __name__ == '__main__':
     context = ('a.cert', 'a.key')
-    app.run(threaded=True, debug=True, host='10.0.0.18')
-    # app.run(debug=True, host='172.20.10.14', ssl_context=context)
+    # app.run(threaded=True, debug=True)
+    app.run(debug=True, host='localhost', ssl_context=context)
