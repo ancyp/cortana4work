@@ -5,9 +5,12 @@
 .dynamicTile .col-sm-4.col-xs-8{
     padding:5px;
 }
-
+.hr {
+    height: 125px;
+}
 #tile1{
     background: white;
+    margin-top: 30px;
 }
 
 #tile2{
@@ -32,6 +35,7 @@
 
 #tile7{
     background: white;
+    margin-top: 30px;
 }
 
 #tile8{

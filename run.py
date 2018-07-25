@@ -45,6 +45,9 @@ def forward():
     task_executor = resolve_intent(intent)
     return task_executor(intent)
 
+@app.route('/taskssettings', methods=['GET'])
+def task_settings():
+    return render_template('taskssettings.html')
 
 if __name__ == '__main__':
     context = ('a.cert', 'a.key')
