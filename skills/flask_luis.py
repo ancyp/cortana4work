@@ -1,5 +1,4 @@
 import requests
-# from flask import Flask, Response, request, json
 
 # app = Flask(__name__)
 
@@ -8,7 +7,6 @@ headers = {
 }
 
 
-# @app.route('/', methods = ['POST'])
 # takes in json body {'command': <value>}
 def get_intent(command):
     global headers

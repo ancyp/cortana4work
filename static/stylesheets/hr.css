@@ -1,0 +1,63 @@
+.dynamicTile .col-sm-2.col-xs-4{
+    padding:5px;
+}
+
+.dynamicTile .col-sm-4.col-xs-8{
+    padding:5px;
+}
+
+#tile1{
+    background: white;
+}
+
+#tile2{
+    background:white;
+}
+
+#tile3{
+    background: white;
+}
+
+#tile4{
+    background: white;
+}
+
+#tile5{
+    background: white;
+}
+
+#tile6{
+    background: white;
+}
+
+#tile7{
+    background: white;
+}
+
+#tile8{
+    background: white;
+}
+
+#tile9{
+    background: white;
+}
+
+#tile10{
+    background: white;
+}
+
+.tilecaption{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%); 
+    margin:0!important;
+    text-align: center;
+    color:white;
+    font-family: Segoe UI;
+    font-weight: lighter;
+}
+
+
+
