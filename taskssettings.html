@@ -1,27 +1,102 @@
 
 <head>
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script
-			  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-			  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-			  crossorigin="anonymous"></script>
-    <script src="js/taskssettings.js"></script>
-    <link href="css/taskssettings.css" rel="stylesheet">
-</head>
-<body>
-       
-        <div class="col-md-6">
-                <div class="row"> 
-                  <div class="col-md-6">
-                      <input id="input" />
 
-                  </div>
-                  <div class="col-md-6">
-                       
-                      </div>
-                  <div class="col-md-6">
-                 
+    <link href="css/taskssettings.css" rel="stylesheet">
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <link href="css/stylish-portfolio.min.css" rel="stylesheet">
+
+
+    <!-- Bootstrap Core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+    type="text/css">
+  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+ 
+
+</head>
+<body id="page-top">
+
+         <!-- Navigation -->
+    <a class="menu-toggle rounded" href="#">
+        <i class="fa fa-bars"></i>
+      </a>
+      <nav id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand">
+            <a class="js-scroll-trigger" href="index.html">Home</a>
+          </li>
+          <li class="sidebar-nav-item">
+              <a class="js-scroll-trigger" href="#Messages">Messages</a>
+            </li>
+          <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="#Corporate">Corporate</a>
+          </li>
+          <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="taskssettings.html">Tasks</a>
+          </li>
+          <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="#HR">HR</a>
+          </li>
+          <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="#Device">Device</a>
+          </li>
+        </ul>
+      </nav>
+
+
+        <div class="container">
+                <div class="row">
+                  <div class="col-md-8 col-md-offset-3">
+                    <div class="well well-sm">
+                      <form class="form-horizontal" action="" method="post">
+                      <fieldset>
+                        <legend class="text-center">Task settings</legend>
+                
+                        <!-- Start Day Time input-->
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" >Day start time</label>
+                          <div class="col-md-9">
+                            <input id="startDay" type="time" class="form-control">
+                          </div>
+                        </div>
+                
+                        <!-- End Day time input-->
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Day end time</label>
+                          <div class="col-md-9">
+                            <input id="endDay" type="time"  class="form-control">
+                          </div>
+                        </div>
+                
+                        <!-- Lunch time input-->
+                        <div class="form-group">
+                          <label class="col-md-3 control-label"> Lunch time </label>
+                          <div class="col-md-9">
+                            <input class="form-control" id="lunch" type="time" ></input>
+                          </div>
+                        </div>
+                
+                        <!-- Submit button-->
+                        <div class="form-group">
+                          <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                          </div>
+                        </div>
+                      </fieldset>
+                      </form>
+                    </div>
                   </div>
                 </div>
         </div>
+        <script src="js/stylish-portfolio.min.js"></script>
+    
 </body>
